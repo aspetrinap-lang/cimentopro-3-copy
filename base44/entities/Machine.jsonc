@@ -1,0 +1,48 @@
+{
+  "name": "Machine",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome da m\u00e1quina (ex: Vibro-prensa 1)"
+    },
+    "code": {
+      "type": "string",
+      "description": "C\u00f3digo interno"
+    },
+    "type": {
+      "type": "string",
+      "description": "Tipo de equipamento (ex: Vibro-prensa, Betoneira)"
+    },
+    "maintenance_intervals": {
+      "type": "object",
+      "description": "Intervalo em dias entre manuten\u00e7\u00f5es preventivas por tipo: { Lubrifica\u00e7\u00e3o, Hidr\u00e1ulico, Pneum\u00e1tico, Mec\u00e2nico, El\u00e9trico }",
+      "default": {
+        "Lubrifica\u00e7\u00e3o": 15,
+        "Hidr\u00e1ulico": 45,
+        "Pneum\u00e1tico": 45,
+        "Mec\u00e2nico": 60,
+        "El\u00e9trico": 60
+      }
+    },
+    "alerts_reset_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data-base a partir da qual os alertas de manuten\u00e7\u00e3o passam a contar (zerar alertas)"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "code"
+  ],
+  "rls": {
+    "create": null,
+    "read": null,
+    "update": null,
+    "delete": null
+  }
+}
