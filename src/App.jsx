@@ -29,11 +29,12 @@ import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import PinLogin from '@/pages/PinLogin';
+import SupabaseAuthTest from '@/pages/SupabaseAuthTest';
 import { OperatorProvider } from '@/lib/OperatorContext';
 import { ThemeProvider } from 'next-themes';
 
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -44,11 +45,11 @@ const AuthenticatedApp = () => {
   }
 
   if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
+    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
+    if (authError.type === 'auth_required') {
       return (
         <Routes>
+          <Route path="/supabase-auth-test" element={<SupabaseAuthTest />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -61,6 +62,7 @@ const AuthenticatedApp = () => {
 
   return (
     <Routes>
+      <Route path="/supabase-auth-test" element={<SupabaseAuthTest />} />
       <Route element={<Layout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/orders" element={<Orders />} />
@@ -89,18 +91,18 @@ const AuthenticatedApp = () => {
 function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-    <AuthProvider>
-      <QueryClientProvider client={queryClientInstance}>
-        <ConfigProvider>
-          <OperatorProvider>
-            <Router>
-              <AuthenticatedApp />
-            </Router>
-            <Toaster />
-          </OperatorProvider>
-        </ConfigProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClientInstance}>
+          <ConfigProvider>
+            <OperatorProvider>
+              <Router>
+                <AuthenticatedApp />
+              </Router>
+              <Toaster />
+            </OperatorProvider>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
